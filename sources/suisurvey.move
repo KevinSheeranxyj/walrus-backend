@@ -24,8 +24,9 @@ module admin::voteverse{
     const ESurveyNotFound: u64 = 0;
     const ESurveyExpired: u64 = 1;
     const ESurveyStillActive: u64 = 2;
-    const ESurveyMaxParticipantsExceeded: u64 = 3;
-    const EInsufficientReward: u64 = 4;
+    const ESurveyNameTaken: u64 = 3;
+    const ESurveyMaxParticipantsExceeded: u64 = 4;
+    const EInsufficientReward: u64 = 5;
 
     //==============================================================================================
     // Structs 
@@ -42,10 +43,12 @@ module admin::voteverse{
 
     public struct Form has store{
         name: String,
+        blob_id: u256,
         expiration: u64, //in ms
         min_participants: u64,
         max_participants: u64,
         participants: vector<address>,
+        responses: Table<u64, u256>, // <participant_id (vector index), blob_id>
         //criterias, if applicable
         contract_interaction: address, //0x0 if N/A
         reward: u64 //per participant, in sui. 0 if N/A
@@ -59,6 +62,7 @@ module admin::voteverse{
         creator: address,
         // survey name
         name: String,
+        blob_id: u256
     }
 
     public struct SurveyTerminated has copy, drop {
@@ -71,6 +75,7 @@ module admin::voteverse{
         participant: address,
         // survey name
         name: String,
+        blob_id: u256
     }
 
     public struct RewardDistributed has copy, drop {
@@ -96,6 +101,7 @@ module admin::voteverse{
         expiration: u64, //in ms
         min_participants: u64,
         max_participants: u64,
+        blob_id: u256, // empty form data 
         //criterias, if applicable
         contract_interaction: address, //0x0 if N/A
         reward: u64, //per participant, in sui. 0 if N/A
@@ -108,19 +114,23 @@ module admin::voteverse{
             table::add(&mut state.creators, creator, Surveys{owner: creator, forms: table::new(ctx)})
         };
         let surveys = table::borrow_mut(&mut state.creators, creator);
+        assert!(!table::contains(&surveys.forms, name), ESurveyNameTaken);
         let form = Form{
             name,
+            blob_id,
             expiration: clock::timestamp_ms(clock) + expiration,
             min_participants,
             max_participants,
             participants: vector::empty(),
+            responses: table::new(ctx),
             contract_interaction,
             reward,
         };
         table::add(&mut surveys.forms, name, form);
         event::emit(SurveyCreated{
             creator,
-            name
+            name,
+            blob_id
         })
     }
 
@@ -145,6 +155,7 @@ module admin::voteverse{
     entry fun participate_survey(
         name: String,
         creator: address,
+        blob_id: u256, //filled data 
         state: &mut State,
         clock: &Clock, //0x6
         ctx: &mut TxContext
@@ -156,10 +167,13 @@ module admin::voteverse{
         let form = table::borrow_mut(&mut surveys.forms, name);
         assert!(form.expiration > clock::timestamp_ms(clock), ESurveyExpired);
         assert!(form.max_participants < vector::length(&form.participants), ESurveyMaxParticipantsExceeded);
+        let participant_id = vector::length(&form.participants);
         vector::push_back(&mut form.participants, participant);
+        table::add(&mut form.responses, participant_id, blob_id);
         event::emit(ParticipationRecorded{
             participant,
-            name
+            name,
+            blob_id
         })
     }
 

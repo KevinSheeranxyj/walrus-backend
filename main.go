@@ -1,10 +1,9 @@
 package main
 
 import (
-	"crypto/rand"
 	"fmt"
-	"kevinsheeran/walrus-backend/router/walrus"
-	"log"
+	"kevinsheeran/walrus-backend/utils"
+	"math/big"
 )
 
 const (
@@ -16,14 +15,20 @@ const (
 
 func main() {
 
-	randomData := make([]byte, 1024*1024)
-	if _, err := rand.Read(randomData); err != nil {
-		log.Fatalf("failed to read random data: %v", err)
-	}
-	blobId, err := walrus.UploadBlob(address, epochs, randomData)
-	if err != nil {
-		log.Fatalf("failed to upload blob: %v", err)
-	}
+	//randomData := make([]byte, 1024*1024)
+	//if _, err := rand.Read(randomData); err != nil {
+	//	log.Fatalf("failed to read random data: %v", err)
+	//}
+	//blobId, err := walrus.UploadBlob(address, epochs, randomData)
+	//if err != nil {
+	//	log.Fatalf("failed to upload blob: %v", err)
+	//}
+	//
+	//fmt.Printf("Blob ID: %s\n", blobId)
 
-	fmt.Printf("Blob ID: %s\n", blobId)
+	blobIDNum := new(big.Int)
+	blobIDNum.SetString("y1GuyqLZ6IhZGHvHnoSKGQVexrTD6vqssfHxkTrs9cc", 10)
+
+	result := utils.NumToBlobId(blobIDNum)
+	fmt.Printf("Blob ID: %s\n", result)
 }

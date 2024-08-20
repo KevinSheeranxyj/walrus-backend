@@ -1,7 +1,7 @@
 package model
 
-type SurveyForm struct {
-	Name     string
-	Birthday string
-	Address  string
+type Form struct {
+	Title       string
+	Description int8
+	ItemList    []Item
 }

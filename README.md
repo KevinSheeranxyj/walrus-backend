@@ -1,5 +1,9 @@
 # walrus-backend
 
+# Architecture Overview
+
+![Overview](resources/survey-in-walrus.jpg)
+
 
 ## Web3 Survey backend project in Go
 

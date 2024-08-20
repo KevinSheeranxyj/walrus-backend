@@ -1,34 +1,34 @@
 package main
 
 import (
-	"fmt"
-	"kevinsheeran/walrus-backend/utils"
-	"math/big"
+	"gopkg.in/yaml.v3"
+	"io/ioutil"
+	"kevinsheeran/walrus-backend/config"
+	"kevinsheeran/walrus-backend/router"
+	"log"
 )
 
-const (
-	address    = "127.0.0.1:31415"
-	epochs     = "1"
-	aggregator = "https://aggregator-devnet.walrus.space"
-	publisher  = "https://publisher-devnet.walrus.space"
-)
-
+// @title Survey
+// @version 1.0
+// @description backend survey for walrus
+// @securityDefinition.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 
-	//randomData := make([]byte, 1024*1024)
-	//if _, err := rand.Read(randomData); err != nil {
-	//	log.Fatalf("failed to read random data: %v", err)
-	//}
-	//blobId, err := walrus.UploadBlob(address, epochs, randomData)
-	//if err != nil {
-	//	log.Fatalf("failed to upload blob: %v", err)
-	//}
-	//
-	//fmt.Printf("Blob ID: %s\n", blobId)
+	// Read the YAML file
+	data, err := ioutil.ReadFile("config.yaml")
+	if err != nil {
+		log.Fatalf("Error reading YAML file: %s", err)
+	}
 
-	blobIDNum := new(big.Int)
-	blobIDNum.SetString("y1GuyqLZ6IhZGHvHnoSKGQVexrTD6vqssfHxkTrs9cc", 10)
+	// Unmarshal the YAML data into the Config struct
+	err = yaml.Unmarshal(data, &config.Config)
+	if err != nil {
+		log.Fatalf("Error parsing YAML file: %s", err)
+	}
+	router := router.Router()
 
-	result := utils.NumToBlobId(blobIDNum)
-	fmt.Printf("Blob ID: %s\n", result)
+	router.Run(config.Config.System.Host + ":" + config.Config.System.Port)
+
 }

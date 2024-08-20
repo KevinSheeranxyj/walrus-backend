@@ -1,7 +1,7 @@
 package model
 
-type Form struct {
-	Title       string
-	Description int8
-	ItemList    []Item
+type CreateFormDto struct {
+	Title       string `json:"title"`
+	Description int8   `json:"description"`
+	ItemList    []Item `json:"itemList"`
 }

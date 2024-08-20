@@ -1,0 +1,4 @@
+# system settings
+system:
+  host: "localhost"
+  port: 31411

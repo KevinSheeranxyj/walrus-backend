@@ -1,22 +1,13 @@
 package walrus
 
-import (
-	"fmt"
-	"github.com/gin-gonic/gin"
-	"net/http"
-)
+func StoreForm(address string, epochs string, blob []byte) (string, error) {
 
-func UploadBlob(address string, epochs string, blob []byte) (string, error) {
+	router.
+		r.Run(address)
+	return "", nil
+}
 
-	r := gin.Default()
+func GetForm(address string, epochs string, blob []byte) (string, error) {
 
-	storeEndpoint := fmt.Sprintf("http://%s/store", address)
-
-	r.PUT(storeEndpoint, func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "success",
-		})
-	})
-	r.Run(address)
 	return "", nil
 }

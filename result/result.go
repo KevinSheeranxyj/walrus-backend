@@ -29,4 +29,5 @@ func Failed(c *gin.Context, code int, message string) {
 	res.Code = code
 	res.Message = message
 	res.Data = gin.H{}
+	c.JSON(400, res)
 }

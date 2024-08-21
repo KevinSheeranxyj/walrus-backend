@@ -7,7 +7,8 @@
 
 ## Web3 Survey backend project in Go
 
-### Function APIs List
+### Function APIs List that Frontend need to call from
 
- * Storage function(arg01, arg02...)
- * Get blob file (arg01, arg02...)
+ * CreateForm(title, description, itemList) -> FormResponse(Json)
+ * GetForm(formId) -> FormResponse(Json)
+

@@ -1,0 +1,112 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "backend survey for walrus",
+        "title": "Survey",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/v1/create-form": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CreateForm"
+                ],
+                "summary": "CreateForm API",
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CreateFormDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Result"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "enums.ItermType": {
+            "type": "integer",
+            "enum": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "x-enum-varnames": [
+                "TEXT",
+                "TEXTAREA",
+                "CHECKBOX",
+                "RADIO",
+                "SELECT"
+            ]
+        },
+        "model.CreateFormDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "integer"
+                },
+                "itemList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Item"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Item": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "options": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/enums.ItermType"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "result.Result": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

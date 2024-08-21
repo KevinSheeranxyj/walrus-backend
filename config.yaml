@@ -2,3 +2,12 @@
 system:
   host: "localhost"
   port: 31411
+
+
+# logger
+logger:
+  level: info
+  prefix: '[walrus-backend]'
+  director: logger
+  show_line_number: true
+  log_in_console: true

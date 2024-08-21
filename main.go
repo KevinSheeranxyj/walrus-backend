@@ -16,6 +16,7 @@ import (
 // @name Authorization
 func main() {
 
+	//global.Log = core.InitLogger()
 	// Read the YAML file
 	data, err := ioutil.ReadFile("config.yaml")
 	if err != nil {
@@ -27,7 +28,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error parsing YAML file: %s", err)
 	}
-	router := router.Router()
+	router := router.InitRouter()
 
 	router.Run(config.Config.System.Host + ":" + config.Config.System.Port)
 

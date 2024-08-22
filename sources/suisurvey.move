@@ -142,6 +142,7 @@ module admin::suisurvey{
         };
         transfer::share_object(form);
         vector::push_back(&mut surveys.forms, id);
+        vector::push_back(&mut state.all_surveys, id);
         event::emit(SurveyCreated{
             creator,
             name,

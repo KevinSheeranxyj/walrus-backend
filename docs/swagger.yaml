@@ -15,8 +15,10 @@ definitions:
     - SELECT
   model.CreateFormDto:
     properties:
-      description:
-        type: integer
+      blobId:
+        type: string
+      id:
+        type: string
       itemList:
         items:
           $ref: '#/definitions/model.Item'
@@ -28,10 +30,6 @@ definitions:
     properties:
       name:
         type: string
-      options:
-        items:
-          type: string
-        type: array
       title:
         type: string
       type:
@@ -72,4 +70,26 @@ paths:
       summary: CreateForm API
       tags:
       - CreateForm
+  /api/v1/form/{blobId}:
+    get:
+      parameters:
+      - description: Blob ID
+        in: path
+        name: blobId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+        "400":
+          description: Invalid blob ID
+          schema:
+            type: string
+      summary: GetForm API
+      tags:
+      - GetForm
 swagger: "2.0"

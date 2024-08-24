@@ -44,6 +44,40 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/v1/form/{blobId}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GetForm"
+                ],
+                "summary": "GetForm API",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Blob ID",
+                        "name": "blobId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Result"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid blob ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -67,8 +101,11 @@ const docTemplate = `{
         "model.CreateFormDto": {
             "type": "object",
             "properties": {
-                "description": {
-                    "type": "integer"
+                "blobId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
                 },
                 "itemList": {
                     "type": "array",
@@ -86,12 +123,6 @@ const docTemplate = `{
             "properties": {
                 "name": {
                     "type": "string"
-                },
-                "options": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
                 },
                 "title": {
                     "type": "string"

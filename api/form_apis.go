@@ -51,16 +51,16 @@ func CreateForm(c *gin.Context) {
 func GetForm(c *gin.Context) {
 
 	// Bind json parameters
-	var dto model.CreateFormDto
-	if err := c.BindJSON(&dto); err != nil {
-		result.Failed(c, http.StatusBadRequest, "Invalid input")
+	blobId := c.Param("blobId")
+	if blobId == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"err": "Blob ID is required"})
+		return
 	}
-	// TODO: Check form duplication
-	// call aggregator API
 
-	response, erro := callWalrusAggregator(&dto)
-	if erro != nil {
-		result.Failed(c, http.StatusInternalServerError, erro.Error())
+	// Call aggregator API
+	response, err := callWalrusAggregator(blobId)
+	if err != nil {
+		result.Failed(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
@@ -98,30 +98,26 @@ func callWalrusPublisher(data *model.CreateFormDto) (string, error) {
 	return string(body), nil
 }
 
-func callWalrusAggregator(data *model.CreateFormDto) (string, error) {
-	url := fmt.Sprintf("https://aggregator-devnet.walrus.space/v1/%s", data.BlobId)
+func callWalrusAggregator(blobId string) (string, error) {
 
-	req, error := http.NewRequest("GET", url, nil)
-	if error != nil {
-		return "", fmt.Errorf("error creating request: %v", error)
+	url := fmt.Sprintf("https://aggregator-devnet.walrus.space/v1/%s", blobId)
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return "", fmt.Errorf("err creating request: %v", err)
 	}
 
 	client := &http.Client{}
-	response, error := client.Do(req)
-	if error != nil {
-		return "", fmt.Errorf("error executing request: %v", error)
+	response, err := client.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("err executing request: %v", err)
 	}
 	defer response.Body.Close()
 
-	body, error := ioutil.ReadAll(response.Body)
-	if error != nil {
-		return "", fmt.Errorf("error reading response: %v", error)
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return "", fmt.Errorf("err reading response: %v", err)
 	}
 
 	return string(body), nil
-}
-
-func GetFormInfo(address string, epochs string, blob []byte) (string, error) {
-
-	return "", nil
 }

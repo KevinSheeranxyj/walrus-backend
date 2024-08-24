@@ -31,6 +31,10 @@ func CreateForm(c *gin.Context) {
 		result.Failed(c, http.StatusInternalServerError, err.Error())
 		return
 	}
+
+	//SurveyHandler()
+	SurveyCallbackHandler()
+
 	result.Success(c, response)
 
 }
@@ -63,6 +67,29 @@ func callWalrusPublisher(data *model.CreateFormDto) (string, error) {
 
 	return string(body), nil
 }
+
+//func callWalrusAggregator(data *model.CreateFormDto) (string, error) {
+//	url := fmt.Sprintf("https://aggregator-devnet.walrus.space/v1/%s", data.Id)
+//
+//	req, error := http.NewRequest("GET", url)
+//	if error != nil {
+//		return "", fmt.Errorf("error creating request: %v", error)
+//	}
+//
+//	client := &http.Client{}
+//	response, error := client.Do(req)
+//	if error != nil {
+//		return "", fmt.Errorf("error executing request: %v", error)
+//	}
+//	defer response.Body.Close()
+//
+//	body, error := ioutil.ReadAll(response.Body)
+//	if error != nil {
+//		return "", fmt.Errorf("error reading response: %v", error)
+//	}
+//
+//	return string(body), nil
+//}
 
 func GetFormInfo(address string, epochs string, blob []byte) (string, error) {
 

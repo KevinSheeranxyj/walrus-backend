@@ -5,3 +5,4 @@ package-lock.json
 .idea/modules.xml
 .idea/vcs.xml
 .idea/inspectionProfiles/Project_Default.xml
+.DS_Store

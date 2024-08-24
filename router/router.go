@@ -20,4 +20,5 @@ func InitRouter() *gin.Engine {
 func register(router *gin.Engine) {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.POST("/api/v1/create-form", api.CreateForm)
+	router.GET("/api/v1/form/:blobId", api.GetForm)
 }

@@ -108,6 +108,7 @@ module admin::suisurvey{
     //==============================================================================================
 
     entry fun create_survey(
+        creator: address,
         name: String,
         expiration: u64, //in ms
         min_participants: u64,
@@ -120,7 +121,6 @@ module admin::suisurvey{
         clock: &Clock, //0x6
         ctx: &mut TxContext
     ){
-        let creator = tx_context::sender(ctx);
         if(!table::contains(&state.creators, creator)){
             table::add(&mut state.creators, creator, Surveys{creator, forms: vector::empty()})
         };
@@ -169,6 +169,7 @@ module admin::suisurvey{
     }
 
     entry fun participate_survey(
+        participant: address,
         form: &mut Form,
         creator: address,
         blob_id: u256, //filled data
@@ -176,7 +177,6 @@ module admin::suisurvey{
         clock: &Clock, //0x6
         ctx: &mut TxContext
     ){
-        let participant = tx_context::sender(ctx);
         assert!(table::contains(&state.creators, creator), ESurveyNotFound);
         let surveys = table::borrow_mut(&mut state.creators, creator);
         assert!(form.expiration > clock::timestamp_ms(clock), ESurveyExpired);
@@ -251,7 +251,7 @@ module admin::suisurvey{
     }
 
     //==============================================================================================
-    // Helper Functions 
+    // Helper Functions
     //==============================================================================================
 
     fun num_to_string(num: u64): String {
@@ -272,7 +272,7 @@ module admin::suisurvey{
     }
 
     //==============================================================================================
-    // Tests 
+    // Tests
     //==============================================================================================
     #[test]
     fun test_init_success() {

@@ -33,8 +33,20 @@ func CreateForm(c *gin.Context) {
 		return
 	}
 
-	//SurveyHandler()
-	SurveyCallbackHandler()
+	// Parse the response to extract blobId
+	var walrusResponse model.WalrusResponse
+	if err := json.Unmarshal([]byte(response), &walrusResponse); err != nil {
+		result.Failed(c, http.StatusInternalServerError, "Error parsing response")
+		return
+	}
+
+	blobId := walrusResponse.NewlyCreated.BlobObject.BlobId
+	fmt.Printf("blobId: %s\n", blobId)
+
+	for _, item := range dto.ItemList {
+		fmt.Printf("item name: %s\n", item.Name)
+		createSurvey(&dto, item.Name, blobId)
+	}
 
 	result.Success(c, response)
 

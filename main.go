@@ -1,29 +1,35 @@
 package main
 
 import (
-	"crypto/rand"
-	"fmt"
-	"kevinsheeran/walrus-backend/router/walrus"
+	"gopkg.in/yaml.v3"
+	"io/ioutil"
+	"kevinsheeran/walrus-backend/config"
+	"kevinsheeran/walrus-backend/router"
 	"log"
 )
 
-const (
-	address    = "127.0.0.1:31415"
-	epochs     = "1"
-	aggregator = "https://aggregator-devnet.walrus.space"
-	publisher  = "https://publisher-devnet.walrus.space"
-)
-
+// @title Survey
+// @version 1.0
+// @description backend survey for walrus
+// @securityDefinition.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 
-	randomData := make([]byte, 1024*1024)
-	if _, err := rand.Read(randomData); err != nil {
-		log.Fatalf("failed to read random data: %v", err)
-	}
-	blobId, err := walrus.UploadBlob(address, epochs, randomData)
+	//global.Log = core.InitLogger()
+	// Read the YAML file
+	data, err := ioutil.ReadFile("config.yaml")
 	if err != nil {
-		log.Fatalf("failed to upload blob: %v", err)
+		log.Fatalf("Error reading YAML file: %s", err)
 	}
 
-	fmt.Printf("Blob ID: %s\n", blobId)
+	// Unmarshal the YAML data into the Config struct
+	err = yaml.Unmarshal(data, &config.Config)
+	if err != nil {
+		log.Fatalf("Error parsing YAML file: %s", err)
+	}
+	router := router.InitRouter()
+
+	router.Run(config.Config.System.Host + ":" + config.Config.System.Port)
+
 }

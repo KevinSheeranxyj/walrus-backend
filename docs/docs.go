@@ -101,9 +101,6 @@ const docTemplate = `{
         "model.CreateFormDto": {
             "type": "object",
             "properties": {
-                "blobId": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },

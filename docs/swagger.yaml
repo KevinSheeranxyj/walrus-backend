@@ -15,8 +15,6 @@ definitions:
     - SELECT
   model.CreateFormDto:
     properties:
-      blobId:
-        type: string
       id:
         type: string
       itemList:

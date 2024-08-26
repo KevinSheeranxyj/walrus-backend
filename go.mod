@@ -4,6 +4,7 @@ go 1.23.0
 
 require (
 	github.com/block-vision/sui-go-sdk v1.0.5
+	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/swaggo/files v1.0.1

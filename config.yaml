@@ -1,6 +1,6 @@
 # system settings
 system:
-  host: "18.223.0.93"
+  host: "0.0.0.0"
   port: 31411
 
 

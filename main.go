@@ -26,6 +26,6 @@ func main() {
 	//}
 	router := router.InitRouter()
 
-	router.Run("0.0.0.0:31411")
+	router.Run("0.0.0.0:8080")
 
 }

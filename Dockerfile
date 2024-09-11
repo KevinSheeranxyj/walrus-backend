@@ -26,7 +26,7 @@ WORKDIR /root/
 COPY --from=builder /app/walrus-backend .
 
 # Expose port 8080 to the outside world
-EXPOSE 31411
+EXPOSE 8080
 
 # Command to run the executable
 CMD ["./walrus-backend"]

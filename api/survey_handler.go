@@ -76,7 +76,7 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) {
 	utils.PrettyPrint(rsp2)
 }
 
-func participateSurvey() {
+func participateSurvey(data *model.CreateFormDto, blobId string) {
 	var ctx = context.Background()
 	var cli = sui.NewSuiClient(constant.SuiTestnetEndpoint)
 
@@ -99,10 +99,11 @@ func participateSurvey() {
 		Function:        "participate_survey",
 		TypeArguments:   []interface{}{},
 		Arguments: []interface{}{
-			"0xb6ba387da7991e22ef89e0a2d0323f7102990bfb69157f983ef9aa8326d793e1", // participant address
-			"test",      // Form object address
-			"864000000", // Creator address
-			"0K7wNVHRw8_FHrJOh8ItI94EPpJiuTldRj3mke4vrNGY",                       // blobId
+			data.Participant, // participant address
+			data.Id,          // Form object address
+			data.Organizer,   // Creator address
+			blobId,           // blobId
+			"0",
 			"0x56f99f6bddabda730c57fe729d6ff7586093b01e00de876a1766f3da0108ec45", //
 			"0x6", // state
 		},

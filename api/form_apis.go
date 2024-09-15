@@ -43,9 +43,14 @@ func CreateForm(c *gin.Context) {
 	blobId := walrusResponse.NewlyCreated.BlobObject.BlobId
 	fmt.Printf("blobId: %s\n", blobId)
 
-	for _, item := range dto.ItemList {
-		fmt.Printf("item name: %s\n", item.Name)
-		createSurvey(&dto, item.Name, blobId)
+	//for _, item := range dto.ItemList {
+	//	fmt.Printf("item name: %s\n", item.Name)
+	//
+	//}
+	if dto.Type == 1 {
+		createSurvey(&dto, dto.Title, blobId)
+	} else {
+		participateSurvey(&dto, blobId)
 	}
 
 	result.Success(c, response)

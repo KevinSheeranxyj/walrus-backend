@@ -110,8 +110,17 @@ const docTemplate = `{
                         "$ref": "#/definitions/model.Item"
                     }
                 },
+                "organizer": {
+                    "type": "string"
+                },
+                "participant": {
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
+                },
+                "type": {
+                    "type": "integer"
                 }
             }
         },

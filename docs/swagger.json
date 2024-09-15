@@ -70,6 +70,25 @@
                     }
                 }
             }
+        },
+        "/health": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HealthCheck"
+                ],
+                "summary": "HealthCheck API",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Result"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -93,6 +112,9 @@
         "model.CreateFormDto": {
             "type": "object",
             "properties": {
+                "creator": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -101,9 +123,6 @@
                     "items": {
                         "$ref": "#/definitions/model.Item"
                     }
-                },
-                "organizer": {
-                    "type": "string"
                 },
                 "participant": {
                     "type": "string"

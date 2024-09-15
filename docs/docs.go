@@ -78,6 +78,25 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/health": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "HealthCheck"
+                ],
+                "summary": "HealthCheck API",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.Result"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -101,6 +120,9 @@ const docTemplate = `{
         "model.CreateFormDto": {
             "type": "object",
             "properties": {
+                "creator": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -109,9 +131,6 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/model.Item"
                     }
-                },
-                "organizer": {
-                    "type": "string"
                 },
                 "participant": {
                     "type": "string"

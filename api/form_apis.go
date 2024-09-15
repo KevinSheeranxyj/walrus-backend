@@ -47,13 +47,21 @@ func CreateForm(c *gin.Context) {
 	//	fmt.Printf("item name: %s\n", item.Name)
 	//
 	//}
-	if dto.Type == 1 {
-		createSurvey(&dto, dto.Title, blobId)
+	if dto.Type == 0 {
+		var err error
+		response, err := createSurvey(&dto, dto.Title, blobId)
+		if err != nil {
+			return
+		}
+		result.Success(c, response)
 	} else {
-		participateSurvey(&dto, blobId)
+		var err1 error
+		response, err1 := participateSurvey(&dto, blobId)
+		if err1 != nil {
+			return
+		}
+		result.Success(c, response)
 	}
-
-	result.Success(c, response)
 
 }
 

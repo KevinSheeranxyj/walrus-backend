@@ -5,7 +5,7 @@ type CreateFormDto struct {
 	Title       string `json:"title"`
 	ItemList    []Item `json:"itemList"`
 	Type        int    `json:"type"`
-	Organizer   string `json:"organizer"`
+	Creator     string `json:"creator"`
 	Participant string `json:"participant"`
 }
 

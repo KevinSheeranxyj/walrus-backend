@@ -12,7 +12,7 @@ import (
 )
 
 // blobId string, name string, expiration string, minParticipants string, maxParticipants string, reward string, state string, clock string, contractInteraction string
-func createSurvey(data *model.CreateFormDto, name string, blobId string) {
+func createSurvey(data *model.CreateFormDto, name string, blobId string) (models.SuiTransactionBlockResponse, error) {
 	var ctx = context.Background()
 	var cli = sui.NewSuiClient(constant.SuiTestnetEndpoint)
 
@@ -20,7 +20,7 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return models.SuiTransactionBlockResponse{}, err
 	}
 
 	priKey := signerAccount.PriKey
@@ -35,9 +35,9 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) {
 		Function:        "create_survey",
 		TypeArguments:   []interface{}{},
 		Arguments: []interface{}{
-			data.Id,     // Creator
-			name,        // Name
-			"864000000", // Replace nil with 0 or a default value if U64 is expected
+			data.Creator, // Creator
+			name,         // Name
+			"864000000",  // Replace nil with 0 or a default value if U64 is expected
 			"1",
 			"10",   // Replace nil with 0 or a default value if U64 is expected
 			blobId, // blobId
@@ -52,7 +52,7 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return models.SuiTransactionBlockResponse{}, err
 	}
 
 	// see the successful transaction url: https://explorer.sui.io/txblock/CD5hFB4bWFThhb6FtvKq3xAxRri72vsYLJAVd7p9t2sR?network=testnet
@@ -70,13 +70,15 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return models.SuiTransactionBlockResponse{}, err
 	}
 
 	utils.PrettyPrint(rsp2)
+
+	return rsp2, nil
 }
 
-func participateSurvey(data *model.CreateFormDto, blobId string) {
+func participateSurvey(data *model.CreateFormDto, blobId string) (models.SuiTransactionBlockResponse, error) {
 	var ctx = context.Background()
 	var cli = sui.NewSuiClient(constant.SuiTestnetEndpoint)
 
@@ -84,7 +86,7 @@ func participateSurvey(data *model.CreateFormDto, blobId string) {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return models.SuiTransactionBlockResponse{}, err
 	}
 
 	priKey := signerAccount.PriKey
@@ -101,7 +103,7 @@ func participateSurvey(data *model.CreateFormDto, blobId string) {
 		Arguments: []interface{}{
 			data.Participant, // participant address
 			data.Id,          // Form object address
-			data.Organizer,   // Creator address
+			data.Creator,     // Creator address
 			blobId,           // blobId
 			"0",
 			"0x56f99f6bddabda730c57fe729d6ff7586093b01e00de876a1766f3da0108ec45", //
@@ -113,7 +115,7 @@ func participateSurvey(data *model.CreateFormDto, blobId string) {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return models.SuiTransactionBlockResponse{}, err
 	}
 
 	// see the successful transaction url: https://explorer.sui.io/txblock/CD5hFB4bWFThhb6FtvKq3xAxRri72vsYLJAVd7p9t2sR?network=testnet
@@ -131,8 +133,10 @@ func participateSurvey(data *model.CreateFormDto, blobId string) {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return models.SuiTransactionBlockResponse{}, err
 	}
 
 	utils.PrettyPrint(rsp2)
+
+	return rsp2, nil
 }

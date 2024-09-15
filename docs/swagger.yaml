@@ -15,14 +15,14 @@ definitions:
     - SELECT
   model.CreateFormDto:
     properties:
+      creator:
+        type: string
       id:
         type: string
       itemList:
         items:
           $ref: '#/definitions/model.Item'
         type: array
-      organizer:
-        type: string
       participant:
         type: string
       title:
@@ -96,4 +96,16 @@ paths:
       summary: GetForm API
       tags:
       - GetForm
+  /health:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/result.Result'
+      summary: HealthCheck API
+      tags:
+      - HealthCheck
 swagger: "2.0"

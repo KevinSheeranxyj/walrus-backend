@@ -74,7 +74,6 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) (models
 	}
 
 	utils.PrettyPrint(rsp2)
-
 	return rsp2, nil
 }
 
@@ -124,9 +123,12 @@ func participateSurvey(data *model.CreateFormDto, blobId string) (models.SuiTran
 		PriKey:      priKey,
 		// only fetch the effects field
 		Options: models.SuiTransactionBlockOptions{
-			ShowInput:    true,
-			ShowRawInput: true,
-			ShowEffects:  true,
+			ShowInput:          true,
+			ShowRawInput:       true,
+			ShowEffects:        true,
+			ShowEvents:         true,
+			ShowObjectChanges:  true,
+			ShowBalanceChanges: true,
 		},
 		RequestType: "WaitForLocalExecution",
 	})

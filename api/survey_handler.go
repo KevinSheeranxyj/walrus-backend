@@ -67,7 +67,7 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) (models
 			ShowObjectChanges:  true,
 			ShowBalanceChanges: true,
 		},
-		RequestType: "WaitForLocalExecution",
+		RequestType: "WaitForEffectsCert",
 	})
 
 	if err != nil {
@@ -108,7 +108,6 @@ func participateSurvey(data *model.CreateFormDto, blobId string) (models.SuiTran
 			blobId,           // blobId
 			"0",
 			"0x56f99f6bddabda730c57fe729d6ff7586093b01e00de876a1766f3da0108ec45", //
-			"0x6", // state
 		},
 		Gas:       gasObj,
 		GasBudget: "100000000",

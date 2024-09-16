@@ -40,7 +40,7 @@ func CreateForm(c *gin.Context) {
 		return
 	}
 
-	blobId := walrusResponse.NewlyCreated.BlobObject.BlobId
+	blobId := walrusResponse.NewlyCreated.BlobObject.ID
 	fmt.Printf("blobId: %s\n", blobId)
 
 	//for _, item := range dto.ItemList {
@@ -119,6 +119,7 @@ func callWalrusPublisher(data *model.CreateFormDto) (string, error) {
 	if error != nil {
 		return "", fmt.Errorf("error reading response: %v", error)
 	}
+	fmt.Printf("body: %s\n", string(body))
 
 	return string(body), nil
 }

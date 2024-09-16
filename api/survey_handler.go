@@ -43,8 +43,8 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) (models
 			blobId, // blobId
 			"0xe6ec46bacdf52039961a503a65c838987b54b0fe1b5d27b6bd9991c2e5df3fb7", // Replace nil with 0 or a default value if U64 is expected
 			"0", // Replace nil with 0 or a default value if U64 is expected
-			"0x56f99f6bddabda730c57fe729d6ff7586093b01e00de876a1766f3da0108ec45",
-			"0x6",
+			"0x56f99f6bddabda730c57fe729d6ff7586093b01e00de876a1766f3da0108ec45", // state
+			"0x6", // clock
 		},
 		Gas:       gasObj,
 		GasBudget: "100000000",
@@ -106,8 +106,8 @@ func participateSurvey(data *model.CreateFormDto, blobId string) (models.SuiTran
 			data.Id,          // Form object address
 			data.Creator,     // Creator address
 			blobId,           // blobId
-			"0",
-			"0x56f99f6bddabda730c57fe729d6ff7586093b01e00de876a1766f3da0108ec45", //
+			"0x56f99f6bddabda730c57fe729d6ff7586093b01e00de876a1766f3da0108ec45",
+			"0x6",
 		},
 		Gas:       gasObj,
 		GasBudget: "100000000",

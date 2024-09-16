@@ -61,9 +61,11 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) (models
 		PriKey:      priKey,
 		// only fetch the effects field
 		Options: models.SuiTransactionBlockOptions{
-			ShowInput:    true,
-			ShowRawInput: true,
-			ShowEffects:  true,
+			ShowInput:          true,
+			ShowRawInput:       true,
+			ShowEffects:        true,
+			ShowObjectChanges:  true,
+			ShowBalanceChanges: true,
 		},
 		RequestType: "WaitForLocalExecution",
 	})
@@ -130,7 +132,7 @@ func participateSurvey(data *model.CreateFormDto, blobId string) (models.SuiTran
 			ShowObjectChanges:  true,
 			ShowBalanceChanges: true,
 		},
-		RequestType: "WaitForLocalExecution",
+		RequestType: "WaitForEffectsCert",
 	})
 
 	if err != nil {

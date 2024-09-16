@@ -1,5 +1,7 @@
 package model
 
+import "github.com/block-vision/sui-go-sdk/models"
+
 type Storage struct {
 	ID          string `json:"id"`
 	StartEpoch  int    `json:"startEpoch"`
@@ -24,5 +26,7 @@ type NewlyCreated struct {
 }
 
 type WalrusResponse struct {
-	NewlyCreated NewlyCreated `json:"newlyCreated"`
+	NewlyCreated NewlyCreated                       `json:"newlyCreated"`
+	BlobId       string                             `json:"blobId"`
+	SuiResponse  models.SuiTransactionBlockResponse `json:"suiResponse"`
 }

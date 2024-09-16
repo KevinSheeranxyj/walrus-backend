@@ -53,14 +53,18 @@ func CreateForm(c *gin.Context) {
 		if err != nil {
 			return
 		}
-		result.Success(c, response)
+		walrusResponse.BlobId = blobId
+		walrusResponse.SuiResponse = response
+		result.Success(c, walrusResponse)
 	} else {
 		var err1 error
 		response, err1 := participateSurvey(&dto, blobId)
 		if err1 != nil {
 			return
 		}
-		result.Success(c, response)
+		walrusResponse.BlobId = blobId
+		walrusResponse.SuiResponse = response
+		result.Success(c, walrusResponse)
 	}
 
 }

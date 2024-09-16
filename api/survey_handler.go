@@ -30,7 +30,7 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) (models
 
 	rsp, err := cli.MoveCall(ctx, models.MoveCallRequest{
 		Signer:          signerAccount.Address,
-		PackageObjectId: "0xe6ec46bacdf52039961a503a65c838987b54b0fe1b5d27b6bd9991c2e5df3fb7",
+		PackageObjectId: "0x633c45534c43bada0a1f1967953d28c87fd75b43b1ffccb1eeee68b4a2c7d013",
 		Module:          "suisurvey",
 		Function:        "create_survey",
 		TypeArguments:   []interface{}{},
@@ -43,7 +43,7 @@ func createSurvey(data *model.CreateFormDto, name string, blobId string) (models
 			blobId, // blobId
 			"0xe6ec46bacdf52039961a503a65c838987b54b0fe1b5d27b6bd9991c2e5df3fb7", // Replace nil with 0 or a default value if U64 is expected
 			"0", // Replace nil with 0 or a default value if U64 is expected
-			"0x56f99f6bddabda730c57fe729d6ff7586093b01e00de876a1766f3da0108ec45", // state
+			"0xcc1c879619b42c792093e9e798c3529006bd30e83ee733a01c03546bacd9590e", // state
 			"0x6", // clock
 		},
 		Gas:       gasObj,
@@ -97,7 +97,7 @@ func participateSurvey(data *model.CreateFormDto, blobId string) (models.SuiTran
 
 	rsp, err := cli.MoveCall(ctx, models.MoveCallRequest{
 		Signer:          signerAccount.Address,
-		PackageObjectId: "0xe6ec46bacdf52039961a503a65c838987b54b0fe1b5d27b6bd9991c2e5df3fb7",
+		PackageObjectId: "0x633c45534c43bada0a1f1967953d28c87fd75b43b1ffccb1eeee68b4a2c7d013",
 		Module:          "suisurvey",
 		Function:        "participate_survey",
 		TypeArguments:   []interface{}{},
@@ -106,7 +106,7 @@ func participateSurvey(data *model.CreateFormDto, blobId string) (models.SuiTran
 			data.Id,          // Form object address
 			data.Creator,     // Creator address
 			blobId,           // blobId
-			"0x56f99f6bddabda730c57fe729d6ff7586093b01e00de876a1766f3da0108ec45",
+			"0xcc1c879619b42c792093e9e798c3529006bd30e83ee733a01c03546bacd9590e",
 			"0x6",
 		},
 		Gas:       gasObj,
